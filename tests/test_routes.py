@@ -1,6 +1,5 @@
 """
 Account API Service Test Suite
-
 Test cases can be run with the following:
   nosetests -v --with-spec --spec-color
   coverage report -m
@@ -14,14 +13,12 @@ from service.models import db, Account, init_db
 from service.routes import app
 from service import talisman
 
-
 DATABASE_URI = os.getenv(
     "DATABASE_URI", "postgresql://postgres:postgres@localhost:5432/postgres"
 )
 
 BASE_URL = "/accounts"
 HTTPS_ENVIRON = {'wsgi.url_scheme': 'https'}
-
 
 ######################################################################
 #  T E S T   C A S E S
@@ -138,7 +135,6 @@ class TestAccountService(TestCase):
         self.assertEqual(data["name"], account.name)
         self.assertEqual(data["email"], account.email)
 
-
     def test_read_account_not_found(self):
         """It should return 404 when Account is not found"""
         response = self.client.get(f"{BASE_URL}/0")
@@ -209,4 +205,3 @@ class TestAccountService(TestCase):
         response = self.client.get('/', environ_overrides=HTTPS_ENVIRON)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.headers.get('Access-Control-Allow-Origin'), '*')
-
