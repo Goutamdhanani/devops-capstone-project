@@ -16,7 +16,8 @@ spec:
     spec:
       containers:
       - name: accounts
-        image: us.icr.io/sn-labs-goutamdhanan/accounts:1
+        image: IMAGE_NAME_HERE
+
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
