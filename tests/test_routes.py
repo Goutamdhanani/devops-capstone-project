@@ -14,15 +14,12 @@ from service.models import db, Account, init_db
 from service.routes import app
 from service import talisman
 
-
 DATABASE_URI = os.getenv(
     "DATABASE_URI", "postgresql://postgres:postgres@localhost:5432/postgres"
 )
 
 BASE_URL = "/accounts"
 HTTPS_ENVIRON = {'wsgi.url_scheme': 'https'}
-
-
 ######################################################################
 #  T E S T   C A S E S
 ######################################################################
@@ -75,11 +72,9 @@ class TestAccountService(TestCase):
             account.id = new_account["id"]
             accounts.append(account)
         return accounts
-
     ######################################################################
     #  A C C O U N T   T E S T   C A S E S
     ######################################################################
-
     def test_index(self):
         """It should get 200_OK from the Home Page"""
         response = self.client.get("/")
@@ -101,7 +96,6 @@ class TestAccountService(TestCase):
             content_type="application/json"
         )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-
         # Make sure location header is set
         location = response.headers.get("Location", None)
         self.assertIsNotNone(location)
@@ -137,8 +131,6 @@ class TestAccountService(TestCase):
         data = response.get_json()
         self.assertEqual(data["name"], account.name)
         self.assertEqual(data["email"], account.email)
-
-
     def test_read_account_not_found(self):
         """It should return 404 when Account is not found"""
         response = self.client.get(f"{BASE_URL}/0")
@@ -168,8 +160,6 @@ class TestAccountService(TestCase):
         data = response.get_json()
         self.assertEqual(data["name"], updated_name)
         self.assertEqual(data["email"], updated_email)
-
-
     def test_update_account_not_found(self):
         """It should return 404 when updating non-existent Account"""
         fake_account = AccountFactory()
