@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: accounts
+  name: accounts
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: accounts
+  template:
+    metadata:
+      labels:
+        app: accounts
+    spec:
+      containers:
+      - name: accounts
+        image: us.icr.io/sn-labs-goutamdhanan/accounts:1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+        env:
+        - name: DATABASE_HOST
+          value: postgresql
+        - name: DATABASE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: postgresql
+              key: database-name
+        - name: DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgresql
+              key: database-password
+        - name: DATABASE_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgresql
+              key: database-user
